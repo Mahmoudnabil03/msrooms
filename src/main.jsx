@@ -15,7 +15,7 @@ const speakers = [
   { name: 'Ari K.', handle: '@arik', role: 'SPEAKER', initials: 'AK', color: 'violet', active: true },
 ];
 
-function Logo() { return <div className="brand"><span className="brand-mark">⌁</span><span>MS <b>Rooms</b></span></div> }
+function Logo() { return <div className="brand"><img src="/ms-rooms-logo.svg" alt="MS Rooms" /><span>MS <b>Rooms</b></span></div> }
 function Avatar({ initials, color = 'coral', small = false }) { return <div className={`avatar ${color} ${small ? 'small' : ''}`}>{initials}</div> }
 function Wave({ compact = false }) { return <div className={`wave ${compact ? 'compact' : ''}`}>{[1,3,5,2,6,4,7,3,5,2,4,1,3].map((n,i)=><i key={i} style={{height: `${n * (compact ? 2 : 3)}px`}} />)}</div> }
 
