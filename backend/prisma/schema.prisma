@@ -1,0 +1,65 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql" url = env("DATABASE_URL") }
+
+enum RoomRole { HOST SPEAKER LISTENER }
+enum ParticipantStatus { ACTIVE LEFT REMOVED }
+
+model User {
+  id String @id @default(cuid())
+  email String? @unique
+  phone String? @unique
+  username String @unique
+  passwordHash String
+  avatarUrl String?
+  bio String @default("")
+  isVerified Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  rooms Room[]
+  participations RoomParticipant[]
+  @@index([username])
+}
+
+model OtpCode {
+  id String @id @default(cuid())
+  destination String
+  codeHash String
+  expiresAt DateTime
+  attempts Int @default(0)
+  createdAt DateTime @default(now())
+  @@index([destination, expiresAt])
+}
+
+model Room {
+  id String @id @default(cuid())
+  name String
+  category String
+  isPrivate Boolean @default(false)
+  maxParticipants Int @default(100)
+  isActive Boolean @default(true)
+  hostId String
+  host User @relation(fields: [hostId], references: [id])
+  createdAt DateTime @default(now())
+  endedAt DateTime?
+  participants RoomParticipant[]
+  messages ChatMessage[]
+  @@index([isActive, category, createdAt])
+}
+
+model RoomParticipant {
+  id String @id @default(cuid())
+  roomId String
+  userId String
+  role RoomRole @default(LISTENER)
+  isMuted Boolean @default(false)
+  handRaised Boolean @default(false)
+  status ParticipantStatus @default(ACTIVE)
+  joinedAt DateTime @default(now())
+  leftAt DateTime?
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([roomId, userId])
+  @@index([roomId, status])
+}
+
+model ChatMessage { id String @id @default(cuid()); roomId String; userId String; body String; createdAt DateTime @default(now()); room Room @relation(fields:[roomId], references:[id], onDelete: Cascade); user User @relation(fields:[userId], references:[id], onDelete: Cascade); @@index([roomId, createdAt]) }
