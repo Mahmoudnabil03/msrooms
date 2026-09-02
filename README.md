@@ -41,7 +41,7 @@ The API starts on `http://localhost:4000`. `GET /health` is the health check. OT
 
 ## Mobile Setup
 
-Requirements: Node.js 20+, Expo CLI, Xcode for iOS or Android Studio/emulator for Android.
+Requirements: Node.js 20+, Expo SDK 57, EAS CLI, Xcode for iOS or Android Studio/emulator for Android.
 
 ```bash
 cd mobile
@@ -49,6 +49,20 @@ npm install
 copy .env.example .env   # PowerShell; use cp on macOS/Linux
 npx expo start
 ```
+
+Agora requires a native development build; Expo Go cannot load `react-native-agora`.
+
+```bash
+npx expo install expo-dev-client
+npx expo run:android
+npx expo run:ios
+```
+
+The room screen joins Agora after the authenticated Socket.IO membership is accepted. Listeners receive audio only; hosts and promoted speakers receive publisher tokens. The native Agora SDK is responsible for microphone permissions, AEC, ANS, and DTLS/SRTP media encryption.
+
+## Branding Assets
+
+The supplied MS Rooms artwork is represented in `mobile/assets/ms-rooms-logo.svg` and `public/ms-rooms-logo.svg`. The latter is used by the browser preview. For an EAS native build, export the supplied artwork as a square PNG at `mobile/assets/icon.png` and add `"icon": "./assets/icon.png"` to `mobile/app.json`; Expo does not accept SVG files for native app icons.
 
 For a physical phone, set `EXPO_PUBLIC_API_URL` and `EXPO_PUBLIC_SOCKET_URL` to the computer's LAN IP rather than `localhost`. The client includes demo lobby data until the API is reachable, but authentication and live room operations require a running backend and a verified user token.
 
