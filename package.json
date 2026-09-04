@@ -10,9 +10,18 @@
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
-    "vite": "latest",
+    "agora-react-native-rtm": "^1.5.1",
+    "agora-rn-uikit": "^5.0.2",
+    "expo": "^57.0.19",
+    "expo-dev-client": "~57.0.18",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-native": "0.86.3",
+    "react-native-agora": "^4.6.2",
+    "vite": "latest"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/react": "~19.2.4",
+    "typescript": "~6.0.3"
+  }
 }

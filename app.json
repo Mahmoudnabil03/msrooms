@@ -1,0 +1,15 @@
+{
+  "android": {
+    "package": "com.mahmoudznabil.msrooms"
+  },
+  "extra": {
+    "eas": {
+      "projectId": "05cc1f71-60fe-4055-8a8c-3b1e3525aaaa"
+    }
+  },
+  "expo": {
+    "ios": {
+      "bundleIdentifier": "com.mahmoudznabil.msrooms"
+    }
+  }
+}
