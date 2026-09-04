@@ -1,15 +1,27 @@
 {
-  "android": {
-    "package": "com.mahmoudznabil.msrooms"
-  },
-  "extra": {
-    "eas": {
-      "projectId": "05cc1f71-60fe-4055-8a8c-3b1e3525aaaa"
-    }
-  },
   "expo": {
+    "name": "MS Rooms",
+    "slug": "ms-rooms",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "scheme": "msrooms",
+    "platforms": ["ios", "android"],
     "ios": {
-      "bundleIdentifier": "com.mahmoudznabil.msrooms"
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mahmoudznabil.msrooms",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "MS Rooms uses your microphone when you join the conversation."
+      }
+    },
+    "android": {
+      "package": "com.mahmoudznabil.msrooms",
+      "permissions": ["RECORD_AUDIO"]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "05cc1f71-60fe-4055-8a8c-3b1e3525aaaa"
+      }
     }
   }
 }
