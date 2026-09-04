@@ -2,6 +2,45 @@
 
 MS Rooms is a cross-platform live audio rooms application. This repository contains a runnable React Native/Expo client and a Node.js backend with PostgreSQL persistence, Redis presence caching, Socket.IO room events, and Agora token issuance.
 
+## Research Summary
+
+Fomi Party is a mobile-first social entertainment application, not a public web platform. Its store listings describe live group voice rooms, themed conversations, anonymous/low-identity participation, host interaction, virtual gifts, in-app currency, profile personalization, and additional games or interactive features. Android and iPhone distribution are confirmed; no public evidence establishes whether its client is Flutter, React Native, Unity, or native, nor whether it uses WebRTC, Agora, or another media provider. Those implementation details must not be guessed from product behavior alone.
+
+Public review signals include OTP/onboarding failures, moderation/account complaints, monetization concerns, regional support gaps, and privacy concerns. MS Rooms follows the same strongest product loop: fast themed-room discovery, voice-first participation, host/speaker/listener roles, text chat, and a synchronized quick poll. It deliberately uses Agora for media and keeps social/game logic in the backend, rather than attempting to copy an unknown proprietary stack.
+
+Useful alternatives are LiveKit for a self-hosted WebRTC SFU, Jitsi for open-source conferencing, Mumble for low-latency community voice, Matrix for federated messaging, and Agora's public RTC quickstarts for client reference. None provides Fomi's discovery, host UX, virtual economy, or moderation model out of the box.
+
+## Diagnosis And Repairs
+
+The initial audit identified these concrete failure classes:
+
+- `backend/src/server.ts` contained malformed nested Prisma object expressions, so TypeScript could not parse or build the API.
+- Root-level generated Expo files and a separate `mobile/` app made `npx expo` commands ambiguous. The intended app is `mobile/`; native commands must be run from that directory.
+- Expo SDK 57 was paired with React Native 0.81/React 19.1 in `mobile/package.json`. The manifest now aligns with Expo 57's React Native 0.86/React 19.2 line.
+- Physical devices cannot reach a backend at `localhost`. Set both mobile API variables to the development computer's LAN IP or a deployed HTTPS URL.
+- OTP registration had no password-compatible path. OTP verification now creates a verified account intentionally; password login remains a separate explicit registration/login path.
+- Agora cleanup captured stale React state. The room now keeps the native engine in a ref and releases it on unmount.
+- Socket events previously allowed chat/hand operations without active membership. The API now checks active room membership before changing state or writing chat.
+- Host moderation is now authorized server-side and supports promote, demote, mute, unmute, and remove through `room:moderate`.
+
+## Fix Plan And Effort
+
+Priority 1 is complete: startup parsing, dependency alignment, auth storage, room join state, and Agora lifecycle. Priority 2 is complete for the MVP: synchronized room events, host moderation, and one synchronized quick-poll game with scores. Priority 3 remains deployment hardening: wire a real OTP provider, add avatar object-storage uploads, add the Redis Socket.IO adapter for multiple API replicas, and implement app-store billing/virtual gifts. A developer with the service credentials can complete those production integrations in roughly 2-5 days depending on provider setup.
+
+## Test Plan
+
+1. Backend: copy `backend/.env.example` to `.env`, start PostgreSQL/Redis, run `npx prisma generate`, `npx prisma migrate dev --name init`, then `npm run dev` and verify `GET /health`.
+2. Auth: call `/auth/otp/request`, read the development code from the API log, verify it at `/auth/otp/verify`, then call `/users/me` with the returned access token.
+3. Rooms: use the token to create a room, connect two Socket.IO clients with separate users, emit `room:join`, and verify both receive `room:participants`.
+4. Realtime: emit `room:hand` and `room:chat` only after joining; verify a non-member receives an error acknowledgement and no chat row is created.
+5. Moderation: create a host and listener, emit `room:moderate` from the host, verify the participant row and `room:moderated` event; repeat from the listener and verify rejection.
+6. Agora: configure the App ID and certificate on the backend, run a native development build from `mobile/`, join from two devices, verify listener subscription and publisher audio, then leave and re-enter repeatedly to check for no stuck microphone/audio.
+7. Game loop: host emits `game:start`, players receive identical `game:state`, answer once, and verify scores/state are identical for all connected players.
+
+## Error Reporting
+
+For any remaining issue, capture the exact command, platform/device, Expo SDK, app build type, full Metro/native stack trace, backend logs, request URL/status, Socket.IO transport/errors, and whether the backend was reached by LAN IP or localhost. Screenshots are useful for visual defects but cannot replace text logs or error codes.
+
 ## Architecture Plan
 
 **Stack:** React Native with Expo targets iOS and Android from one codebase. The backend uses Node.js, Express, TypeScript, Prisma, PostgreSQL, Redis, and Socket.IO. Agora RTC handles encrypted low-latency audio using the native SDK's AEC/ANS processing. This keeps media transport out of the application servers, while REST owns durable data and Socket.IO owns room state and chat.
