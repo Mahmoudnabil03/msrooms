@@ -5,23 +5,23 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://a801c845-cbaa-4c27-886f-a7553a47ce08-00-2w1nzazo9b3wz.reed.replit.dev",
-        "EXPO_PUBLIC_SOCKET_URL": "https://a801c845-cbaa-4c27-886f-a7553a47ce08-00-2w1nzazo9b3wz.reed.replit.dev"
+        "EXPO_PUBLIC_API_URL": "https://YOUR_DOCKER_HOST",
+        "EXPO_PUBLIC_SOCKET_URL": "https://YOUR_DOCKER_HOST"
       }
     },
     "preview": {
       "distribution": "internal",
       "android": { "buildType": "apk" },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://a801c845-cbaa-4c27-886f-a7553a47ce08-00-2w1nzazo9b3wz.reed.replit.dev",
-        "EXPO_PUBLIC_SOCKET_URL": "https://a801c845-cbaa-4c27-886f-a7553a47ce08-00-2w1nzazo9b3wz.reed.replit.dev"
+        "EXPO_PUBLIC_API_URL": "https://YOUR_DOCKER_HOST",
+        "EXPO_PUBLIC_SOCKET_URL": "https://YOUR_DOCKER_HOST"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://a801c845-cbaa-4c27-886f-a7553a47ce08-00-2w1nzazo9b3wz.reed.replit.dev",
-        "EXPO_PUBLIC_SOCKET_URL": "https://a801c845-cbaa-4c27-886f-a7553a47ce08-00-2w1nzazo9b3wz.reed.replit.dev"
+        "EXPO_PUBLIC_API_URL": "https://YOUR_DOCKER_HOST",
+        "EXPO_PUBLIC_SOCKET_URL": "https://YOUR_DOCKER_HOST"
       }
     }
   },

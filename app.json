@@ -6,17 +6,23 @@
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
     "scheme": "msrooms",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.mahmoudznabil.msrooms",
       "infoPlist": {
-        "NSMicrophoneUsageDescription": "MS Rooms uses your microphone when you join the conversation."
+        "NSMicrophoneUsageDescription": "MS Rooms uses your microphone when you join the conversation.",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
       "package": "com.mahmoudznabil.msrooms",
-      "permissions": ["RECORD_AUDIO"]
+      "permissions": [
+        "RECORD_AUDIO"
+      ]
     },
     "extra": {
       "eas": {
