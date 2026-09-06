@@ -1,11 +1,11 @@
 FROM node:20-slim
 RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
-COPY package*.json ./
+COPY backend/package*.json ./
 RUN npm ci --ignore-scripts
-COPY prisma ./prisma
-COPY tsconfig.json ./
-COPY src ./src
+COPY backend/prisma ./prisma
+COPY backend/tsconfig.json ./
+COPY backend/src ./src
 RUN npx prisma generate
 RUN npm run build
 EXPOSE 4000

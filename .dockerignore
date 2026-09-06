@@ -1,0 +1,15 @@
+node_modules
+backend/node_modules
+backend/dist
+dist
+.git
+android
+ios
+.expo
+/public
+/src
+*.md
+!backend/src
+!backend/prisma
+!backend/package.json
+!backend/tsconfig.json
