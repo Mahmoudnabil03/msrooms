@@ -1,0 +1,2 @@
+run = "cd backend && npm install && npx prisma generate && npm run dev"
+entrypoint = "backend/src/server.ts"
