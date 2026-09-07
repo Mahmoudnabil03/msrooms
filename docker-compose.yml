@@ -1,8 +1,11 @@
 services:
   api:
+    # Build from local backend, or pull your published image:
+    # image: mahmoudznabil/ms-rooms:latest
     build:
       context: ./backend
       dockerfile: Dockerfile
+    image: mahmoudznabil/ms-rooms:latest
     ports:
       - "4000:4000"
     env_file:
